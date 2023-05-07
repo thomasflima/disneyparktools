@@ -10,3 +10,4 @@ numpy
 folium
 googlemaps
 polyline
+d
