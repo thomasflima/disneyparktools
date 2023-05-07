@@ -10,3 +10,4 @@ numpy
 folium
 googlemaps
 polyline
+chown -R appuser:appuser /app/.streamlit/
