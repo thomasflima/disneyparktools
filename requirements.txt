@@ -2,7 +2,6 @@ datetime
 pandas
 geopandas
 requests
-folium.plugins
 streamlit_folium
 streamlit_option_menu
 streamlit
