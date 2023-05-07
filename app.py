@@ -17,6 +17,8 @@ import polyline
 from datetime import datetime, timedelta
 import json
 
+st.set_config_file(path="config.toml")
+
 @st.cache_data()
 def load_data_wait_times():
     df_atracoes = pd.read_csv('data/atracoes_disney_att.csv')
