@@ -17,11 +17,6 @@ import polyline
 from datetime import datetime, timedelta
 import json
 
-st.set_option('theme.primaryColor', '#B02228')
-st.set_option('theme.backgroundColor', '#FFFFFF')
-st.set_option('theme.secondaryBackgroundColor', '#F7F7F7')
-st.set_option('theme.textColor', '#12194A')
-
 @st.cache_data()
 def load_data_wait_times():
     df_atracoes = pd.read_csv('data/atracoes_disney_att.csv')
