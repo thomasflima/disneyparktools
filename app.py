@@ -11,12 +11,10 @@ import matplotlib as plt
 from PIL import Image, ImageDraw
 import numpy as np
 import folium
-from branca.colormap import LinearColormap as lcmap
 import googlemaps
 import polyline
 from datetime import datetime, timedelta
 import json
-
 
 @st.cache_data()
 def load_data_wait_times():
@@ -88,9 +86,12 @@ def ler_arquivo_csv(nome_arquivo):
     df_atracoes = pd.read_csv(nome_arquivo)
     return df_atracoes
 
+with open('data/limits_parques.geojson') as f:
+    geojson_data_limites = json.load(f)
+
 # define as camadas de mapa com folium.TileLayer()
 fantasyland = folium.TileLayer(
-    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmfw5un001301qn9d8v8ffd/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='Mapbox',name='Fantasyland',retain=True)
+    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmfw5un001301qn9d8v8ffd/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='Mapbox',name='Enchanted  Kingdom',retain=True)
 
 shadownland = folium.TileLayer(
     tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmg8fop001601qth4lz7vr6/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='Mapbox',name='Shadownland',retain=True)
@@ -110,12 +111,11 @@ supermario = folium.TileLayer(
 totoro = folium.TileLayer(
     tiles='https://api.mapbox.com/styles/v1/lbencz/clgdvhyz900a601lcc2ojjfj8/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGJlbmN6IiwiYSI6ImNsZGVuZDJudzBhdDgzb3FiY3N6eDBhaXgifQ.78HzulaJ8rRPgX0bxND9zg', attr='Mapbox',name='Totoro',retain=True)
 
+icon_pg = 'icon_pg.png'
+st.set_page_config(page_title="Disney's Parks Tools", page_icon=icon_pg, layout="wide", initial_sidebar_state="expanded")
 
-
-st.set_page_config(page_title="Disney's Parks Tools", page_icon="", layout="wide",initial_sidebar_state="expanded")
 st.markdown('<link href="https://fonts.cdnfonts.com/css/walt-disney-script" rel="stylesheet">', unsafe_allow_html=True)
 st.markdown('<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">',unsafe_allow_html=True)
-
 df_atracoes = ler_arquivo_csv('data/atracoes_disney.csv')
 merged_df=load_data_wait_times()
 
@@ -272,7 +272,6 @@ def main():
         parques = merged_df["Park Name"].unique().tolist()  # Obter lista única de parques e adicionar a opção "All"
         parques.insert(0, "All")
         df_filtrado = filter_data(merged_df, parques)
-
         # Criar GeoDataFrame com os pontos filtrados
         gdf_filtrado = gpd.GeoDataFrame(df_filtrado,
                                         geometry=gpd.points_from_xy(df_filtrado.Longitude, df_filtrado.Latitude))
@@ -308,6 +307,11 @@ def main():
         m.fit_bounds([[bounds.miny.min(), bounds.minx.min()], [bounds.maxy.max(), bounds.maxx.max()]])
 
         # Exibir mapa
+        folium.GeoJson(
+            geojson_data_limites,
+            name='Limits',
+            style_function=lambda x: {'color': '#B02228', 'fillOpacity': 0, 'weight': 3}
+        ).add_to(m)
         folium.LayerControl(position='topleft').add_to(m)
         folium_static(m, width=915)
 
@@ -336,6 +340,11 @@ def main():
             fantasyland.add_to(m)
             shadownland.add_to(m)
             neverland.add_to(m)
+            folium.GeoJson(
+                geojson_data_limites,
+                name='Limits',
+                style_function=lambda x: {'color': '#B02228', 'fillOpacity': 0, 'weight': 3}
+            ).add_to(m)
             folium.LayerControl(position='topleft').add_to(m)  # Adicionar legenda
             parques2 = merged_df["Park Name"].unique().tolist()  # Obter lista única de parques e adicionar a opção "All"
             parques2.insert(0, "All")
@@ -421,6 +430,7 @@ def main():
 
 
             m.fit_bounds([[bounds.miny.min(), bounds.minx.min()], [bounds.maxy.max(), bounds.maxx.max()]])
+
             # Criar um container e centralizar o elemento m dentro dele
             folium_static(m, width=915)
             df_mean = merged_df.groupby('Park Name')['wait_time'].mean().reset_index()
@@ -466,7 +476,7 @@ def main():
 
             if nome_parque3 != "":
                 bounds = merged_df[merged_df['Park Name'] == nome_parque3][['Latitude', 'Longitude']].agg(
-                    [min, max]).values.tolist()
+                    ['mean']).values.tolist()
 
                 densidade_df = merged_df[merged_df['Park Name'] == nome_parque3]
                 densidade_df["densidade"] = densidade_df["capacidade"] / (densidade_df["wait_time"] / 60)
@@ -495,7 +505,11 @@ def main():
                 # Convert the GeoDataFrame to GeoJSON
                 utm_json = utm.to_json()
                 # Create a folium map centered on the first polygon
-                m = folium.Map(location=[bounds[0][0], bounds[0][1]], zoom_start=14, tiles=real_world, )
+                m = folium.Map(location=[bounds[0][0], bounds[0][1]], zoom_start=15, tiles=monochrome, )
+                real_world.add_to(m)
+                fantasyland.add_to(m)
+                neverland.add_to(m)
+                shadownland.add_to(m)
                 # Add a choropleth layer to the map
                 folium.Choropleth(
                     geo_data=utm_json,
@@ -503,12 +517,18 @@ def main():
                     data=utm,
                     columns=['Land', 'density_per_m2'],
                     key_on='feature.properties.Land',
-                    fill_color='YlOrRd',
+                    fill_color='Reds',
                     fill_opacity=0.7,
-                    line_opacity=0.2,
+                    line_opacity=0.4,
                     legend_name='Density per m²',
                     highlight=True,).add_to(m)
                 # Display the map
+                folium.GeoJson(
+                    geojson_data_limites,
+                    name='Limits',
+                    style_function=lambda x: {'color': '#B02228', 'fillOpacity': 0, 'weight': 3}
+                ).add_to(m)
+                folium.LayerControl(position='topleft').add_to(m)
                 folium_static(m, width=915)
 
 
@@ -530,6 +550,9 @@ def main():
         # Obter a extensão espacial da feição filtrada
             bounds = gdf_filtrado.bounds
             m = folium.Map(location=[28.377625, -81.56505], zoom_start=13, tiles=monochrome)
+            real_world.add_to(m)
+            fantasyland.add_to(m)
+            shadownland.add_to(m)
 
         # Iterar sobre as linhas do DataFrame filtrado e adicionar marcadores ao mapa
             for index, row in gdf_filtrado.iterrows():
@@ -537,17 +560,17 @@ def main():
                     continue  # Ignorar linhas com valores faltantes na latitude ou longitude
                 icon_mk = 'mickey.png'
                 iconmk = folium.features.CustomIcon(icon_mk, icon_size=(30, 40))
-                popup_text = f"<b>Ride:</b> {row['Ride Name']}<br><b>Park:</b> {row['Park Name']}<br><b>Land:</b> {row['Land']}"  # Personalizar o popup
+                popup_text = f"<b>Ride:</b> {row['Ride Name']}<br><b>Park:</b> {row['Park Name']}<br><b>Land:</b> {row['Land']}<br><b>Wait Time (minutes):</b> {row['wait_time']}"  # Personalizar o popup
                 popup = folium.Popup(popup_text, max_width=500)
                 folium.Marker(location=[row["Latitude"], row["Longitude"]], popup=popup,
-                              icon=iconmk).add_to(m)
+                              icon=iconmk, name='Rides').add_to(m)
 
 
         # Definir zoom para a extensão espacial da feição filtrada
         # Definir zoom para a extensão espacial da feição filtrada
             m.fit_bounds([[bounds.miny.min(), bounds.minx.min()], [bounds.maxy.max(), bounds.maxx.max()]])
         # Exibir mapa
-            folium.LayerControl(position='topleft').add_to(m)
+
         # Substitua 'sua_chave_de_api' pela sua chave de API do Google Maps
             gmaps = googlemaps.Client(key='AIzaSyAWOd-oTM2yFXrlrvFDzru1hbFk2yeIXQE')
         # Coordenadas de origem e destino
@@ -573,7 +596,8 @@ def main():
             route_line = folium.PolyLine(locations=route_coordinates, color='#FFC62E', weight=5)
 
         # Adicionar linha de rota ao mapa
-            route_line.add_to(m)
+            route_line.add_to(m, name='Routes')
+            folium.LayerControl(position='topleft').add_to(m)
             tempo_rota = directions_result[0]['legs'][0]['duration']['text']
             total_wait_time = df_filtrado["wait_time"].sum()
             tempo_rota = directions_result[0]['legs'][0]['duration']['text']
