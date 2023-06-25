@@ -139,23 +139,18 @@ def main():
                 icon_mnr = 'minnie_r.png'
                 icon_mng = 'minnie_g.png'
                 icon_mny = 'minnie_y.png'
-                style_limits = {'color': '#B02228', 'fillOpacity': 0, 'weight': 4}
             elif model == 'Princess':
                 icon_mnr = 'aurora.png'
                 icon_mng = 'tiana.png'
                 icon_mny = 'jasmine.png'
-                style_limits = {'color': '#850534', 'fillOpacity': 0, 'weight': 4}
             elif model == 'Villains':
                 icon_mnr = 'jafar.png'
                 icon_mng = 'malevola.png'
                 icon_mny = 'rainhama.png'
-                style_limits = {'color': '#633A1C', 'fillOpacity': 0, 'weight': 4}
             elif model == 'Peter Pan':
                 icon_mnr = 'capitao.png'
                 icon_mng = 'peter.png'
                 icon_mny = 'wendy.png'
-                style_limits = {'color': '#E6E7E8', 'fillOpacity': 0, 'weight': 4}
-
         with st.expander(' 💬 Click here to learn about the licenses 🚨'):
             st.write(
                 "This project is part of the Geospatial Application Development course. It was developed using Python and utilizes Streamlit, Leaflet, Folium, OSM datas, and data from the Queue Time API (available at https://queue-times.com/). This project is not for commercial purposes and is not affiliated in any way with Disney. It has been created by fans, for fans. If any credits are missing, please contact us at thomasfelipedelima@gmail.com, and we will be happy to add them.")
@@ -379,6 +374,14 @@ def main():
             fantasyland.add_to(m)
             shadownland.add_to(m)
             neverland.add_to(m)
+            if model == "Classic":
+                style_limits = {'color': '#B02228', 'fillOpacity': 0, 'weight': 4}
+            if model == "Princess":
+                style_limits = {'color': '#850534', 'fillOpacity': 0, 'weight': 4}
+            elif model == 'Villains':
+                style_limits = {'color': '#633A1C', 'fillOpacity': 0, 'weight': 4}
+            elif model == 'Peter Pan':
+                style_limits = {'color': '#E6E7E8', 'fillOpacity': 0, 'weight': 4}
 
             folium.GeoJson(
                 geojson_data_limites,
