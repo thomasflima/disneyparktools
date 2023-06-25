@@ -15,6 +15,7 @@ import googlemaps
 import polyline
 from datetime import datetime, timedelta
 import json
+from streamlit.components.v1 import html
 
 @st.cache_data()
 def load_data_wait_times():
@@ -91,25 +92,25 @@ with open('data/limits_parques.geojson') as f:
 
 # define as camadas de mapa com folium.TileLayer()
 fantasyland = folium.TileLayer(
-    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmfw5un001301qn9d8v8ffd/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='Mapbox',name='Enchanted  Kingdom',retain=True)
+    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmfw5un001301qn9d8v8ffd/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='<a href="https://www.mapbox.com/">Mapbox</a> |<a href="https://queue-times.com/"> Open Street Map</a> | <a href="https://www.openstreetmap.org/"> Queue Time API</a> ',name='Enchanted  Kingdom',retain=True)
 
 shadownland = folium.TileLayer(
-    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmg8fop001601qth4lz7vr6/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='Mapbox',name='Shadownland',retain=True)
+    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmg8fop001601qth4lz7vr6/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='<a href="https://www.mapbox.com/">Mapbox</a> |<a href="https://queue-times.com/"> Open Street Map</a> | <a href="https://www.openstreetmap.org/"> Queue Time API</a> ',name='Shadownland',retain=True)
 
 neverland = folium.TileLayer(
-    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmger0y001i01ny8a4m58um/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='Mapbox',name='Neverland',retain=True)
+    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmger0y001i01ny8a4m58um/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='<a href="https://www.mapbox.com/">Mapbox</a> |<a href="https://queue-times.com/"> Open Street Map</a> | <a href="https://www.openstreetmap.org/"> Queue Time API</a> ',name='Neverland',retain=True)
 
 real_world = folium.TileLayer(
-    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmgfxgc001k01pe83qvau6x/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='Mapbox',name='Real World',retain=True)
+    tiles='https://api.mapbox.com/styles/v1/thomaslima22/clgmgfxgc001k01pe83qvau6x/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoidGhvbWFzbGltYTIyIiwiYSI6ImNrcmNhcWYzOTUxNXUybnJ1MTYyemk2NnMifQ.iNn2WyeT4PxcDcELUieNaQ',attr='<a href="https://www.mapbox.com/">Mapbox</a> |<a href="https://queue-times.com/"> Open Street Map</a> | <a href="https://www.openstreetmap.org/"> Queue Time API</a> ',name='Real World',retain=True)
 
 monochrome =  folium.TileLayer(
-    tiles='https://api.mapbox.com/styles/v1/lbencz/clhcrd0sc00q601qpewwu47vt/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGJlbmN6IiwiYSI6ImNsZGVuZDJudzBhdDgzb3FiY3N6eDBhaXgifQ.78HzulaJ8rRPgX0bxND9zg',attr='Mapbox',name='Classic',retain=True)
+    tiles='https://api.mapbox.com/styles/v1/lbencz/clhcrd0sc00q601qpewwu47vt/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGJlbmN6IiwiYSI6ImNsZGVuZDJudzBhdDgzb3FiY3N6eDBhaXgifQ.78HzulaJ8rRPgX0bxND9zg',attr='<a href="https://www.mapbox.com/">Mapbox</a> |<a href="https://queue-times.com/"> Open Street Map</a> | <a href="https://www.openstreetmap.org/"> Queue Time API</a> ',name='Classic',retain=True)
 
 supermario = folium.TileLayer(
-    tiles='https://api.mapbox.com/styles/v1/lbencz/clgdr3k4g00ph01mn1dwhd51m/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGJlbmN6IiwiYSI6ImNsZGVuZDJudzBhdDgzb3FiY3N6eDBhaXgifQ.78HzulaJ8rRPgX0bxND9zg', attr='Mapbox',name='Super Mario',retain=True)
+    tiles='https://api.mapbox.com/styles/v1/lbencz/clgdr3k4g00ph01mn1dwhd51m/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGJlbmN6IiwiYSI6ImNsZGVuZDJudzBhdDgzb3FiY3N6eDBhaXgifQ.78HzulaJ8rRPgX0bxND9zg', attr='<a href="https://www.mapbox.com/">Mapbox</a> |<a href="https://queue-times.com/"> Open Street Map</a> | <a href="https://www.openstreetmap.org/"> Queue Time API</a> ',name='Super Mario',retain=True)
 
 totoro = folium.TileLayer(
-    tiles='https://api.mapbox.com/styles/v1/lbencz/clgdvhyz900a601lcc2ojjfj8/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGJlbmN6IiwiYSI6ImNsZGVuZDJudzBhdDgzb3FiY3N6eDBhaXgifQ.78HzulaJ8rRPgX0bxND9zg', attr='Mapbox',name='Totoro',retain=True)
+    tiles='https://api.mapbox.com/styles/v1/lbencz/clgdvhyz900a601lcc2ojjfj8/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGJlbmN6IiwiYSI6ImNsZGVuZDJudzBhdDgzb3FiY3N6eDBhaXgifQ.78HzulaJ8rRPgX0bxND9zg', attr='<a href="https://www.mapbox.com/">Mapbox</a> |<a href="https://queue-times.com/"> Open Street Map</a> | <a href="https://www.openstreetmap.org/"> Queue Time API</a> ',name='Totoro',retain=True)
 
 icon_pg = 'icon_pg.png'
 st.set_page_config(page_title="Disney's Parks Tools", page_icon=icon_pg, layout="wide", initial_sidebar_state="expanded")
@@ -131,8 +132,38 @@ def main():
             icons=["house", "map", "clock", "signpost", "book", "globe"],
             menu_icon="None",
             default_index=0,)
-        st.markdown("<blockquote style='text-align: right; font-family: Walt Disney Script; font-size: 21px; margin-top: 0;'>If you can dream it, you can do it. - Walt Disney</blockquote>",
-            unsafe_allow_html=True)
+        with st.expander('➡️ Click here for more Magic ✨'):
+            model = st.radio('Cartographic symbols', ('Classic', 'Princess', 'Villains', 'Peter Pan'), index=0)
+            st.balloons()
+            if model == 'Classic':
+                icon_mnr = 'minnie_r.png'
+                icon_mng = 'minnie_g.png'
+                icon_mny = 'minnie_y.png'
+            elif model == 'Princess':
+                icon_mnr = 'aurora.png'
+                icon_mng = 'tiana.png'
+                icon_mny = 'jasmine.png'
+            elif model == 'Villains':
+                icon_mnr = 'jafar.png'
+                icon_mng = 'malevola.png'
+                icon_mny = 'rainhama.png'
+            elif model == 'Peter Pan':
+                icon_mnr = 'capitao.png'
+                icon_mng = 'peter.png'
+                icon_mny = 'wendy.png'
+        with st.expander(' 💬 Click here to learn about the licenses 🚨'):
+            st.write(
+                "This project is part of the Geospatial Application Development course. It was developed using Python and utilizes Streamlit, Leaflet, Folium, OSM datas, and data from the Queue Time API (available at https://queue-times.com/). This project is not for commercial purposes and is not affiliated in any way with Disney. It has been created by fans, for fans. If any credits are missing, please contact us at thomasfelipedelima@gmail.com, and we will be happy to add them.")
+        with st.expander('⚠️ If you work at Disney, you need to read here! 🚨'):
+            st.write("""
+            We created this project because we are huge Disney fans and we absolutely adore all the magic it brings into our lives! Our dream is to experience the enchantment of Disney firsthand and see how the world of engineering intertwines with the realms of fantasy. If you work at Disney and can help make our dream come true, please reach out to us!
+
+            This project is a result of our Geospatial Application Development course. We had a blast developing it using Python, along with Streamlit, Leaflet, Folium, OSM datas, and the amazing Queue Time API (available at https://queue-times.com/). It's important to note that this project is purely a fan creation and is not associated with Disney or any commercial purposes. It's made by fans, for fans, with heaps of love and pixie dust! If any credits are missing, please contact us at thomasfelipedelima@gmail.com, and we will be more than happy to give proper attribution.
+
+            PS: Please refrain from suing us or shutting down this application; this project is purely a creative endeavor that blends geospatial knowledge with the enchantment of Disney. Let's spread joy and magic instead!
+            PS 2: We've never had the chance to visit the magical Disney parks in person, so we gladly welcome any complimentary tickets to make our dreams come true!
+            """)
+
     if choice == 'Home':
         # Scroll to top of the page
 
@@ -148,13 +179,14 @@ def main():
                 longitude = float(parques[0]['longitude'])
                 mapa = folium.Map(location=[0, 0], zoom_start=2, tiles = monochrome)
 
+
                 # Criar o cluster para os marcadores dos parques
                 cluster = MarkerCluster(name='Parques')
 
                 # Adicionar marcadores para cada parque ao cluster
                 for parque in parques:
                     icon_dn = 'mickey.png'
-                    icondisney = folium.features.CustomIcon(icon_dn, icon_size=(30, 40))
+                    icondisney = folium.features.CustomIcon(icon_dn, icon_size=(35, 55))
                     latitude = float(parque['latitude'])
                     longitude = float(parque['longitude'])
                     popup = folium.Popup(parque['name'], max_width=300)
@@ -194,7 +226,6 @@ def main():
             st.write("""A collection of tools for spatial visualization of attractions in the theme parks of the Walt Disney World Resort complex. Explore this magical world of fun through interactive maps, wait time information, graphics, and much more.
               \nMade with love by Disney fans for Disney fans.""")
             st.subheader("Under Contruction 🚧")
-
         with tab3:
             st.title("Meet the Dreammakers")
             st.write("""🏰🎢🎠 We are a group of Disney fans who created this collection of tools for spatial visualization of attractions in the theme parks of the Walt Disney World complex. 🌟✨ We want to provide a magical experience for everyone who loves Disney.
@@ -258,7 +289,9 @@ def main():
                 "In my free time, I am a small aspiring GIS developer, always looking for new tools and solutions to make the world a more amazing place. If you want to know more about my work, take a look at my GitHub (thomasfelipedelima) or contact me by email (thomasfelipedelima@gmail.com).")
                 st.write(
                 "I hope these tools are useful and can bring a little bit of the magic of the Disney world to you. Who knows, you might even embark on your own Disney developer adventure. Remember: magic is everywhere, you just have to believe!")
-
+        st.markdown(
+            "<blockquote style='text-align: right; font-family: Walt Disney Script; font-size: 28px; margin-top: 0;'>If you can dream it, you can do it. - Walt Disney</blockquote>",
+            unsafe_allow_html=True)
     elif choice == 'Disney World Parks Map':
         st.header("🗺️ Map of Attractions at Walt Disney World 🏰")
         st.write("Welcome to the magical world of Disney parks in Orlando! Here, the fun never ends, and now, with the Disney World Parks Map tool, your experience will be even more enchanting.")
@@ -290,10 +323,10 @@ def main():
             icon_studio = 'studios.png'
             icon_epcot = 'epcot.png'
 
-            magic = folium.features.CustomIcon(icon_magic, icon_size=(30, 40))
-            animal = folium.features.CustomIcon(icon_animal, icon_size=(30, 40))
-            studio = folium.features.CustomIcon(icon_studio, icon_size=(30, 40))
-            epcot = folium.features.CustomIcon(icon_epcot, icon_size=(30, 40))
+            magic = folium.features.CustomIcon(icon_magic, icon_size=(35, 55))
+            animal = folium.features.CustomIcon(icon_animal, icon_size=(35, 55))
+            studio = folium.features.CustomIcon(icon_studio, icon_size=(35, 55))
+            epcot = folium.features.CustomIcon(icon_epcot, icon_size=(35, 55))
 
             icons = {"Disney Magic Kingdom": magic, "Epcot": epcot, "Disney Hollywood Studio": studio,
                      "Animal kingdom": animal}
@@ -336,14 +369,25 @@ def main():
                                    <span style='background-color: #F8C206; width: 20px; height: 20px; margin-right: 10px; margin-left: 20px;'></span>{legend_colors['yellow']}\
                                    <span style='background-color: #B12228; width: 20px; height: 20px; margin-right: 10px; margin-left: 20px;'></span>{legend_colors['red']}\
                                </div>"
+
             m = folium.Map(location=[28.377625, -81.56505], zoom_start=13, tiles=real_world, )
             fantasyland.add_to(m)
             shadownland.add_to(m)
             neverland.add_to(m)
+            if model == "Classic":
+                style_limits = {'color': '#B02228', 'fillOpacity': 0, 'weight': 4}
+            if model == "Princess":
+                style_limits = {'color': '#850534', 'fillOpacity': 0, 'weight': 4}
+            elif model == 'Villains':
+                style_limits = {'color': '#633A1C', 'fillOpacity': 0, 'weight': 4}
+            elif model == 'Peter Pan':
+                style_limits = {'color': '#E6E7E8', 'fillOpacity': 0, 'weight': 4}
+
             folium.GeoJson(
                 geojson_data_limites,
                 name='Limits',
-                style_function=lambda x: {'color': '#B02228', 'fillOpacity': 0, 'weight': 3}
+                style_function=lambda x: style_limits
+
             ).add_to(m)
             folium.LayerControl(position='topleft').add_to(m)  # Adicionar legenda
             parques2 = merged_df["Park Name"].unique().tolist()  # Obter lista única de parques e adicionar a opção "All"
@@ -405,12 +449,9 @@ def main():
                 if pd.isna(row["Latitude"]) or pd.isna(
                         row["Longitude"]):  # Ignorar linhas com valores faltantes na latitude ou longitude
                     continue
-                icon_mnr = 'minnie_r.png'
-                icon_mng = 'minnie_g.png'
-                icon_mny = 'minnie_y.png'
-                iconmnr = folium.features.CustomIcon(icon_mnr, icon_size=(30, 40))
-                iconmng = folium.features.CustomIcon(icon_mng, icon_size=(30, 40))
-                iconmny = folium.features.CustomIcon(icon_mny, icon_size=(30, 40))
+                iconmnr = folium.features.CustomIcon(icon_mnr, icon_size=(35, 55))
+                iconmng = folium.features.CustomIcon(icon_mng, icon_size=(35, 55))
+                iconmny = folium.features.CustomIcon(icon_mny, icon_size=(35, 55))
                 if row['wait_time'] > 50:  # Definir a cor do marcador com base no tempo de espera
                     icon = iconmnr
                 elif row['wait_time'] > 15:
@@ -552,21 +593,29 @@ def main():
             m = folium.Map(location=[28.377625, -81.56505], zoom_start=13, tiles=monochrome)
             real_world.add_to(m)
             fantasyland.add_to(m)
+            neverland.add_to(m)
             shadownland.add_to(m)
 
         # Iterar sobre as linhas do DataFrame filtrado e adicionar marcadores ao mapa
             for index, row in gdf_filtrado.iterrows():
                 if pd.isna(row["Latitude"]) or pd.isna(row["Longitude"]):
                     continue  # Ignorar linhas com valores faltantes na latitude ou longitude
-                icon_mk = 'mickey.png'
-                iconmk = folium.features.CustomIcon(icon_mk, icon_size=(30, 40))
+                if model == "Classic":
+                    icon_mk = 'mickey.png'
+                elif model == "Princess":
+                    icon_mk = "branca.png"
+                elif model == "Villains":
+                    icon_mk = "ursula.png"
+                elif model == 'Peter Pan':
+                    icon_mk = 'peterpan.png'
+
+                iconmk = folium.features.CustomIcon(icon_mk, icon_size=(35, 55))
                 popup_text = f"<b>Ride:</b> {row['Ride Name']}<br><b>Park:</b> {row['Park Name']}<br><b>Land:</b> {row['Land']}<br><b>Wait Time (minutes):</b> {row['wait_time']}"  # Personalizar o popup
                 popup = folium.Popup(popup_text, max_width=500)
                 folium.Marker(location=[row["Latitude"], row["Longitude"]], popup=popup,
                               icon=iconmk, name='Rides').add_to(m)
 
 
-        # Definir zoom para a extensão espacial da feição filtrada
         # Definir zoom para a extensão espacial da feição filtrada
             m.fit_bounds([[bounds.miny.min(), bounds.minx.min()], [bounds.maxy.max(), bounds.maxx.max()]])
         # Exibir mapa
@@ -729,7 +778,7 @@ def main():
                 for park_group in parks:
                     for parque in park_group['parks']:
                         icon_pq= 'parques.png'
-                        iconparques = folium.features.CustomIcon(icon_pq, icon_size=(30, 40))
+                        iconparques = folium.features.CustomIcon(icon_pq, icon_size=(35, 55))
                         latitude = float(parque['latitude'])
                         longitude = float(parque['longitude'])
                         popup = folium.Popup(park_group['name'], max_width=300)
