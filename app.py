@@ -8,6 +8,7 @@ from streamlit_folium import folium_static
 from streamlit_option_menu import option_menu
 import streamlit as st
 import matplotlib as plt
+import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 import numpy as np
 import folium
