@@ -5,7 +5,7 @@ requests
 streamlit_folium
 streamlit_option_menu
 streamlit
-matplotlib
+matplotlib==3.7.1
 numpy
 folium
 googlemaps
