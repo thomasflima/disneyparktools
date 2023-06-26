@@ -8,7 +8,6 @@ from streamlit_folium import folium_static
 from streamlit_option_menu import option_menu
 import streamlit as st
 import matplotlib as plt
-import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw
 import numpy as np
 import folium
@@ -505,7 +504,7 @@ def main():
                 ax.tick_params(axis='both', labelsize=10)  # aumenta tamanho das fontes do eixo
                 ax.grid(alpha=0.3, linestyle='--')  # adiciona linhas de grid com transparência
                 ax.set_axisbelow(True)  # coloca o grid abaixo das barras
-                canvas = plt.pyplot.get_current_fig_manager().canvas
+                canvas = plt.get_current_fig_manager().canvas
                 canvas.draw()
                 image = np.frombuffer(canvas.tostring_rgb(), dtype='uint8')
                 image = image.reshape(canvas.get_width_height()[::-1] + (3,))
