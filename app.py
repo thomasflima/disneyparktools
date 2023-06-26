@@ -494,7 +494,7 @@ def main():
             st.write(" The 'Average Wait Time per Park' graph displays the average wait time for attractions in each Disney theme park, allowing visitors to choose rides with shorter wait times and optimize their fun time! ⏰🎉")
 
             with _lock:
-                fig, ax = plt.pyplot.subplots(figsize=(15, 5))  # ajusta o tamanho da figura
+                fig, ax = plt.subplots(figsize=(15, 5))  # ajusta o tamanho da figura
 
                 # adiciona estilo ao gráfico
                 ax.barh(df_mean['Park Name'], df_mean['wait_time'], color=colors, edgecolor='black')
