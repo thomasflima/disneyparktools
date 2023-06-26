@@ -493,7 +493,7 @@ def main():
             st.write(" The 'Average Wait Time per Park' graph displays the average wait time for attractions in each Disney theme park, allowing visitors to choose rides with shorter wait times and optimize their fun time! ⏰🎉")
 
             with _lock:
-                fig, ax = plt.subplots(figsize=(15, 5))  # ajusta o tamanho da figura
+                fig, ax = plt.pyplot.subplots(figsize=(15, 5))  # ajusta o tamanho da figura
 
                 # adiciona estilo ao gráfico
                 ax.barh(df_mean['Park Name'], df_mean['wait_time'], color=colors, edgecolor='black')
@@ -504,7 +504,7 @@ def main():
                 ax.tick_params(axis='both', labelsize=10)  # aumenta tamanho das fontes do eixo
                 ax.grid(alpha=0.3, linestyle='--')  # adiciona linhas de grid com transparência
                 ax.set_axisbelow(True)  # coloca o grid abaixo das barras
-                canvas = plt.get_current_fig_manager().canvas
+                canvas = plt.pyplot.get_current_fig_manager().canvas
                 canvas.draw()
                 image = np.frombuffer(canvas.tostring_rgb(), dtype='uint8')
                 image = image.reshape(canvas.get_width_height()[::-1] + (3,))
